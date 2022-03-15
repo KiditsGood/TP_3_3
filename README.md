@@ -15,3 +15,4 @@
 * Ушакова Анна
 ### Дополнительные ссылки
 [Trello](https://trello.com/b/YBszugLl/%D1%82%D0%BF-3-3)
+[Miro](https://miro.com/app/board/uXjVOFAVB90=/?invite_link_id=535054746845)
