@@ -4,13 +4,16 @@ spring:
   application:
     name: tp3-3
   datasource:
-    url: jdbc:postgresql://localhost:5432/tp3-3
-    username: head
-    password: 456890
+    driverClassName: org.postgresql.Driver
+    url: ${SPRING_DATASOURCE_URL:${local-persistence.url}}
+    username: ${SPRING_DATASOURCE_USERNAME:${local-persistence.username}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${local-persistence.password}}
+
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: false
+    database: PostgreSQL
   servlet:
     multipart:
       #      max-file-size: 128MB
@@ -19,3 +22,7 @@ spring:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+local-persistence:
+  url: jdbc:postgresql://localhost:5432/tp3-3
+  username: head
+  password: 456890
