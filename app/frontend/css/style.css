@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+a{
+    transition: 0.2s;
+}
+a:hover{
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+span,
+ul,
+li,
+button,
+table,
+td,
+th,
+tr {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style-type: none;
+}
+
+button,
+input {
+    outline: none;
+    border: none;
+    background: none;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: white;
+    padding: 25px 220px;
+    box-shadow: rgb(241 243 244) 0 4px 18px;
+}
+.header__left{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 400px;
+}
+.header__left-logo{
+    font-size: 36px;
+    font-weight: 700;
+    color: #336633;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 36px;
+}
+.header--item{
+    font-size: 18px;
+    font-weight: 500;
+    color: #009900;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.svg{
+    width: 18px;
+}
+.main{
+    margin: 150px auto;
+    max-width: 1480px;
+}
+.main__developers-title{
+    font-size: 36px;
+    color: #336633;
+    font-weight: 600;
+    text-align: center;
+}
+.main__developers{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+.main__developers-flex{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+.main__developers-item{
+    width: 400px;
+    height: 400px;
+    background: white;
+    border: 5px solid #f6f6f6;
+    border-radius: 50px;
+    box-shadow: rgb(241 243 244) 0 4px 18px;
+    transition: 0.2s;
+}
+.main__developers-item:hover, .main__catalog-item:hover{
+    transform: translateY(-20px);
+    box-shadow: 0 0 10px 0 #336633;
+    cursor: pointer;
+}
+.main__catalog{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 70px;
+}
+.main__catalog-item{
+    width: 300px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 3px solid #336633;
+    border-radius: 50px;
+    transition: 0.2s;
+}
+.main__catalog-item--text{
+    font-size: 30px;
+    line-height: 30px;
+    font-weight: 500;
+}
+.main__catalog-item--pic{
+    width: 30px;
+}
