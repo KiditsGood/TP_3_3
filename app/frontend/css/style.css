@@ -35,7 +35,8 @@ tr {
 }
 
 button,
-input {
+input,
+select{
     outline: none;
     border: none;
     background: none;
@@ -136,4 +137,184 @@ input {
 }
 .main__catalog-item--pic{
     width: 30px;
+}
+.main__products{
+    display: flex;
+    align-items: flex-start;
+    gap: 50px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin-bottom: 100px;
+}
+.products__item{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 3px solid #336633;
+    border-radius: 30px;
+    padding: 15px 25px;
+    width: 250px;
+    position: relative;
+}
+.products__item-image{
+    width: 150px;
+    border-radius: 30px;
+}
+.products__item-title{
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 500;
+    height: 40px;
+}
+.products__item-description{
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 400;
+    color: lightgray;
+    display: none;
+}
+.products__item-cost{
+    font-size: 18px;
+    line-height: 18px;
+    font-weight: 500;
+    color: #336633;
+}
+.products__item-cost--flex{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+.products__item-buy{
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 15px;
+    color: #009900;
+    border: 1px solid #009900;
+    border-radius: 10px;
+    padding: 10px;
+    transition: 0.2s;
+}
+.products__item-buy:hover{
+    opacity: 0.5;
+    cursor: pointer;
+}
+.products__item-like{
+    position: absolute;
+    transition: 0.2s;
+    top: 15px;
+    right: 16px;
+}
+.products__item-like path{
+    transition: 0.2s;
+}
+.products__item-like:hover path{
+    fill: red;
+    cursor: pointer;
+}
+.products__item-watch{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 14px;
+    color: gray;
+    text-decoration: underline;
+}
+.products__desc{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.main__flex{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.main__search{
+    border: 3px solid #009900;
+    box-shadow: 0 0 0 1px lightgray;
+    width: 250px;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 25px 20px;
+}
+.main__search-input, .filter__inputs-input{
+    border: 2px solid #009900;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+}
+.main__search-input::placeholder{
+    color: lightgray;
+}
+.main__search-button, .main__search-button--sort, .main__search-button--filter{
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 600;
+    color: white;
+    background: #009900;
+    transition: 0.2s;
+    border-radius: 15px;
+    padding: 15px 30px;
+}
+.main__search-button:hover, .main__search-button--sort:hover, .main__search-button--filter:hover{
+    color: #009900;
+    outline: 1px solid #009900;
+    background: none;
+    cursor: pointer;
+}
+.main__search-flex{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.main__search-filter{
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: 500;
+    color: black;
+}
+.main__search-select{
+    border: 2px solid #009900;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+}
+.main__pagination{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.main__pagination-item{
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 500;
+    color: #336633;
+    border: 1px solid #336633;
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.filter__inputs{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+}
+.filter__inputs-input{
+    width: 80px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }

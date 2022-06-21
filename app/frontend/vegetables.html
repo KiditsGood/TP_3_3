@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css"/>
+    <title>Главная страница</title>
+</head>
+<body>
+<header class="header">
+    <div class="header__left">
+        <a href="index.html" class="header__left-logo"><img src="img/products.svg"/>PROSHOP</a>
+        <a class="header--item"><img class="svg" src="img/catalog.svg"/>Каталог</a>
+    </div>
+    <div class="header__right">
+        <a class="header--item"><img class="svg" src="img/user.svg"/>Войти</a>
+    </div>
+</header>
+<main class="wrapper">
+    <div class="main">
+        <div class="main__flex">
+            <div class="main__products">
+
+            </div>
+            <div class="main__search">
+                <input type="text" maxlength="20" class="main__search-input" placeholder="Введите название..."/>
+                <button type="button" class="main__search-button">Поиск</button>
+                <div class="main__search-flex">
+                    <p class="main__search-filter">Фильтрация по цене</p>
+                    <div class="filter__inputs">
+                        <input type="number" maxlength="4" class="filter__inputs-input"/>
+                        <input type="number" maxlength="4" class="filter__inputs-input"/>
+                    </div>
+                </div>
+                <button type="button" class="main__search-button--filter">Фильтрация</button>
+                <div class="main__search-flex">
+                    <p class="main__search-filter">Сортировка по цене</p>
+                    <select class="main__search-select">
+                        <option>По возрастанию</option>
+                        <option>По убыванию</option>
+                    </select>
+                </div>
+                <button type="button" class="main__search-button--sort">Сортировка</button>
+            </div>
+        </div>
+        <div class="main__pagination">
+
+        </div>
+    </div>
+</main>
+<footer class="footer">
+
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script src="js/pagination.js"></script>
+</body>
+</html>
