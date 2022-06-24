@@ -28,9 +28,11 @@ public class RecipeController {
                                        Integer pageNumber,
                                @RequestParam(defaultValue = "10", name = "page_size")
                                        Integer pageSize,
-                               @RequestParam(defaultValue = " ",name = "search") String search
+                               @RequestParam(defaultValue = " ",name = "search") String search,
+                               @RequestParam(defaultValue = " ",name = "type") String type,
+                               @RequestParam(defaultValue = " ",name = "sortOrder") String sortOrder
     ) {
-        return recipeService.findAll(pageNumber, pageSize,search);
+        return recipeService.findAll(pageNumber, pageSize,search,type,sortOrder);
     }
     @GetMapping(value = "/{recipe_id}")
     RecipeDto findById(@PathVariable(name = "recipe_id") String resipeId) {

@@ -6,6 +6,7 @@ import com.vsu.sem6.tp.tp33.persistence.entity.Product;
 import com.vsu.sem6.tp.tp33.persistence.repository.ProductRepository;
 import com.vsu.sem6.tp.tp33.persistence.specification.SearchOperation;
 
+import com.vsu.sem6.tp.tp33.persistence.specification.product.ProductSortSpecification;
 import com.vsu.sem6.tp.tp33.persistence.specification.product.ProductSpecificationBuilder;
 import com.vsu.sem6.tp.tp33.service.logic.ProductService;
 import com.vsu.sem6.tp.tp33.service.mapper.CycleAvoidingMappingContext;
@@ -44,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public PageDto<ProductDto> findAll(Integer pageNumber, Integer pageSize, String search) {
+    public PageDto<ProductDto> findAll(Integer pageNumber, Integer pageSize, String search,String type,String sortOrder) {
         ProductSpecificationBuilder builder = new ProductSpecificationBuilder();
         String operationSetExper = Joiner.on("|").join(SearchOperation.SIMPLE_OPERATION_SET);
         //(\w+?)|([А-я]+)|(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})|(.{8}-.{4}-.{4}-.{4}-.{12})
@@ -62,9 +63,10 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Specification<Product> spec = builder.build();
+        Specification<Product> sortSpec=new ProductSortSpecification(type,sortOrder);
         Page<ProductDto> productDtos = productRepository
                 .findAll(
-                        spec,
+                        sortSpec.and(spec),
                         PageRequest.of(pageNumber,pageSize)
                 )
                 .map(entity->productMapper.fromEntity(entity));

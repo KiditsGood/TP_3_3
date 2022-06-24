@@ -27,9 +27,11 @@ public class ProductController {
                                         Integer pageNumber,
                                 @RequestParam(defaultValue = "10", name = "page_size")
                                         Integer pageSize,
-                                @RequestParam(defaultValue = " ",name = "search") String search
+                                @RequestParam(defaultValue = " ",name = "search") String search,
+                                @RequestParam(defaultValue = " ",name = "type") String type,
+                                @RequestParam(defaultValue = " ",name = "sortOrder") String sortOrder
     ) {
-        return productService.findAll(pageNumber, pageSize,search);
+        return productService.findAll(pageNumber, pageSize,search,type,sortOrder);
     }
     @GetMapping(value = "/{product_id}")
     ProductDto findById(@PathVariable(name = "product_id") String productId) {

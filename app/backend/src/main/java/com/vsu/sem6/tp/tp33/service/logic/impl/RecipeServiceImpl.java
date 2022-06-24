@@ -6,6 +6,7 @@ import com.vsu.sem6.tp.tp33.controller.exception.ApiRequestException;
 import com.vsu.sem6.tp.tp33.persistence.entity.Recipe;
 import com.vsu.sem6.tp.tp33.persistence.repository.RecipeRepository;
 import com.vsu.sem6.tp.tp33.persistence.specification.SearchOperation;
+import com.vsu.sem6.tp.tp33.persistence.specification.recipe.RecipeSortSpecification;
 import com.vsu.sem6.tp.tp33.persistence.specification.recipe.RecipeSpecificationBuilder;
 import com.vsu.sem6.tp.tp33.service.logic.RecipeService;
 import com.vsu.sem6.tp.tp33.service.mapper.CycleAvoidingMappingContext;
@@ -45,7 +46,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 
     @Override
-    public PageDto<RecipeDto> findAll(Integer pageNumber, Integer pageSize, String search) {
+    public PageDto<RecipeDto> findAll(Integer pageNumber, Integer pageSize, String search,String type,String sortOrder) {
         RecipeSpecificationBuilder builder = new RecipeSpecificationBuilder();
         String operationSetExper = Joiner.on("|").join(SearchOperation.SIMPLE_OPERATION_SET);
         //(\w+?)|([А-я]+)|(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})|(.{8}-.{4}-.{4}-.{4}-.{12})
@@ -63,9 +64,10 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
         Specification<Recipe> spec = builder.build();
+        Specification<Recipe> sortSpec=new RecipeSortSpecification(type,sortOrder);
         Page<RecipeDto> productDtos = recipeRepository
                 .findAll(
-                        spec,
+                        sortSpec.and(spec),
                         PageRequest.of(pageNumber,pageSize)
                 )
                 .map(entity->recipeMapper.fromEntity(entity,new CycleAvoidingMappingContext()));
