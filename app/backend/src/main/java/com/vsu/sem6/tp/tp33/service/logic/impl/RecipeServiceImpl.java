@@ -53,11 +53,6 @@ public class RecipeServiceImpl implements RecipeService {
         Pattern pattern = Pattern.compile("(\\w+?)(" + operationSetExper + ")(\\p{Punct}?)(\\w+?|[А-я]+|\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}|.{8}-.{4}-.{4}-.{4}-.{12})(\\p{Punct}?),");
         Matcher matcher = pattern.matcher(search + ",");
         while (matcher.find()) {
-            System.out.println(matcher.group(1));
-            System.out.println(matcher.group(2));
-            System.out.println(matcher.group(3));
-            System.out.println(matcher.group(4));
-            System.out.println(matcher.group(5));
 
             builder.with(
                     matcher.group(1),
