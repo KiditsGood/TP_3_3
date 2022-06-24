@@ -20,4 +20,5 @@ public class OrderDto {
     private String address;
     private UserDto user;
     private List<ProductOrderDto> productOrders;
+    private int totalCost;
 }

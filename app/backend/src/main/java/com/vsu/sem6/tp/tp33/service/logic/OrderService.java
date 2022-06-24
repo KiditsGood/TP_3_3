@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface OrderService {
-    PageDto<OrderDto> findAll(Integer pageNumber, Integer pageSize, String search);
+    PageDto<OrderDto> findAll(Integer pageNumber, Integer pageSize, String search,String type,String sortOrder);
 
     OrderDto create(OrderDto orderDto);
 

@@ -4,17 +4,16 @@ import com.google.common.base.Joiner;
 import com.vsu.sem6.tp.tp33.config.SecurityService;
 import com.vsu.sem6.tp.tp33.controller.exception.ApiRequestException;
 import com.vsu.sem6.tp.tp33.persistence.entity.Order;
+import com.vsu.sem6.tp.tp33.persistence.entity.ProductOrder;
 import com.vsu.sem6.tp.tp33.persistence.repository.OrderRepository;
 import com.vsu.sem6.tp.tp33.persistence.repository.UserRepository;
 import com.vsu.sem6.tp.tp33.persistence.specification.SearchOperation;
+import com.vsu.sem6.tp.tp33.persistence.specification.order.OrderSortSpecification;
 import com.vsu.sem6.tp.tp33.persistence.specification.order.OrderSpecificationBuilder;
 import com.vsu.sem6.tp.tp33.service.logic.OrderService;
 import com.vsu.sem6.tp.tp33.service.mapper.CycleAvoidingMappingContext;
 import com.vsu.sem6.tp.tp33.service.mapper.OrderMapper;
-import com.vsu.sem6.tp.tp33.service.model.ImmutablePageDto;
-import com.vsu.sem6.tp.tp33.service.model.OrderDto;
-import com.vsu.sem6.tp.tp33.service.model.PageDto;
-import com.vsu.sem6.tp.tp33.service.model.UserDto;
+import com.vsu.sem6.tp.tp33.service.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,13 +44,13 @@ public class OrderServiceImpl implements OrderService {
     public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper, UserRepository userRepository, SecurityService securityService) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
-        this.securityService=securityService;
-        this.userRepository=userRepository;
+        this.securityService = securityService;
+        this.userRepository = userRepository;
     }
 
 
     @Override
-    public PageDto<OrderDto> findAll(Integer pageNumber, Integer pageSize, String search) {
+    public PageDto<OrderDto> findAll(Integer pageNumber, Integer pageSize, String search, String type, String sortOrder) {
         OrderSpecificationBuilder builder = new OrderSpecificationBuilder();
         String operationSetExper = Joiner.on("|").join(SearchOperation.SIMPLE_OPERATION_SET);
         //(\w+?)|([А-я]+)|(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})|(.{8}-.{4}-.{4}-.{4}-.{12})
@@ -69,13 +68,15 @@ public class OrderServiceImpl implements OrderService {
         }
 
         Specification<Order> spec = builder.build();
+        Specification<Order> sortSpec = new OrderSortSpecification(type, sortOrder);
         Page<OrderDto> orderDtos = orderRepository
+
                 .findAll(
-                        spec,
-                        PageRequest.of(pageNumber,pageSize)
+                        sortSpec.and(spec),
+                        PageRequest.of(pageNumber, pageSize)
                 )
-                .map(entity->orderMapper.fromEntity(entity,new CycleAvoidingMappingContext()));
-        List<OrderDto> orders= orderDtos.getContent().stream().filter(o->securityService.checkAccess(o.getUser().getId())).toList();
+                .map(entity -> orderMapper.fromEntity(entity, new CycleAvoidingMappingContext()));
+        List<OrderDto> orders = orderDtos.getContent().stream().filter(o -> securityService.checkAccess(o.getUser().getId())).toList();
         return ImmutablePageDto.<OrderDto>builder()
                 .pageNumber(pageNumber)
                 .pageSize(pageSize)
@@ -86,32 +87,38 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto create(OrderDto orderDto) {
-        orderDto=Optional.ofNullable(orderDto)
+        orderDto = Optional.ofNullable(orderDto)
                 .filter(dto -> dto.getId() == null)
                 .orElseThrow(() -> new ApiRequestException("Wrong data"));
-        Order order=orderMapper.toEntity(orderDto);
+        Order order = orderMapper.toEntity(orderDto);
         order.setUser(userRepository.getById(securityService.getUserId()));
-        return orderMapper.fromEntity(orderRepository.save(order),new CycleAvoidingMappingContext());
+        return orderMapper.fromEntity(orderRepository.save(order), new CycleAvoidingMappingContext());
 
 
     }
 
     @Override
     public OrderDto update(OrderDto orderDto) {
-
-        return Optional.ofNullable(orderDto)
+        orderDto = Optional.ofNullable(orderDto)
                 .filter(dto -> orderRepository.existsById(dto.getId()))
-                .filter(o->securityService.checkAccess(o.getUser().getId()))
-                .map(orderMapper::toEntity)
-                .map(orderRepository::save)
-                .map(entity->orderMapper.fromEntity(entity,new CycleAvoidingMappingContext()))
+                .filter(o -> securityService.checkAccess(o.getUser().getId()))
                 .orElseThrow(() -> new ApiRequestException("Wrong data"));
+        int totalCost = 0;
+        if (orderDto.getProductOrders() != null) {
+            for (ProductOrderDto p : orderDto.getProductOrders()) {
+                totalCost += p.getAmount() * p.getPrice();
+            }
+            orderDto.setTotalCost(totalCost);
+        }
+        Order order = orderRepository.save(orderMapper.toEntity(orderDto));
+
+        return orderMapper.fromEntity(order, new CycleAvoidingMappingContext());
     }
 
     @Override
     public void deleteById(UUID id) {
         if (orderRepository.existsById(id)) {
-            if (!securityService.checkAccess(orderRepository.getById(id).getUser().getId())){
+            if (!securityService.checkAccess(orderRepository.getById(id).getUser().getId())) {
                 throw new ApiRequestException("access denied");
             }
             orderRepository.deleteById(id);
@@ -122,20 +129,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto findById(UUID id) {
-        if (!securityService.checkAccess(orderRepository.getById(id).getUser().getId())){
+        if (!securityService.checkAccess(orderRepository.getById(id).getUser().getId())) {
             throw new ApiRequestException("access denied");
         }
         return orderRepository
                 .findById(id)
-                .map(entity->orderMapper.fromEntity(entity,new CycleAvoidingMappingContext()))
+                .map(entity -> orderMapper.fromEntity(entity, new CycleAvoidingMappingContext()))
                 .orElseThrow(() -> new ApiRequestException("Wrong id"));
     }
 
     @Override
     public List<OrderDto> findOrdersByToken() {
-        List<Order> orders=orderRepository.findByUser(userRepository.findById(securityService.getUserId()).get());
-        List<OrderDto> dtos= new ArrayList<>();
-        orders.forEach(entity->dtos.add(orderMapper.fromEntity(entity,new CycleAvoidingMappingContext())));
+        List<Order> orders = orderRepository.findByUser(userRepository.findById(securityService.getUserId()).get());
+        List<OrderDto> dtos = new ArrayList<>();
+        orders.forEach(entity -> dtos.add(orderMapper.fromEntity(entity, new CycleAvoidingMappingContext())));
         return dtos;
     }
 }

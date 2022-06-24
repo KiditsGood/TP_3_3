@@ -22,6 +22,7 @@ public class Order {
     private String payment;
     private String comment;
     private String address;
+    private int totalCost;
     @ManyToOne
     private User user;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "order",orphanRemoval=true)

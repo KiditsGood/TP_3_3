@@ -26,9 +26,11 @@ public class OrderController {
                                       Integer pageNumber,
                               @RequestParam(defaultValue = "10", name = "page_size")
                                       Integer pageSize,
-                              @RequestParam(defaultValue = " ",name = "search") String search
+                              @RequestParam(defaultValue = " ",name = "search") String search,
+                              @RequestParam(defaultValue = " ",name = "type") String type,
+                              @RequestParam(defaultValue = " ",name = "sortOrder") String sortOrder
     ) {
-        return orderService.findAll(pageNumber, pageSize,search);
+        return orderService.findAll(pageNumber, pageSize,search,type,sortOrder);
     }
     @GetMapping(value = "/{order_id}")
     OrderDto findById(@PathVariable(name = "order_id") String orderId) {
