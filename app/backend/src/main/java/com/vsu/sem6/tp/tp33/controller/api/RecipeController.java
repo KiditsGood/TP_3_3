@@ -24,11 +24,13 @@ public class RecipeController {
     }
 
     @GetMapping()
-    PageDto<RecipeDto> findAll(
-            @RequestParam(defaultValue = "0") Integer pageNumber,
-            @RequestParam(defaultValue = "10") Integer totalPages
+    PageDto<RecipeDto> findAll(@RequestParam(defaultValue = "0", name = "page_number")
+                                       Integer pageNumber,
+                               @RequestParam(defaultValue = "10", name = "page_size")
+                                       Integer pageSize,
+                               @RequestParam(defaultValue = " ",name = "search") String search
     ) {
-        return recipeService.findAll(pageNumber, totalPages);
+        return recipeService.findAll(pageNumber, pageSize,search);
     }
     @GetMapping(value = "/{recipe_id}")
     RecipeDto findById(@PathVariable(name = "recipe_id") String resipeId) {

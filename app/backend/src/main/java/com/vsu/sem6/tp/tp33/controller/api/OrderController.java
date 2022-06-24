@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 @RestController
 @RequestMapping("/orders")
@@ -21,17 +22,27 @@ public class OrderController {
     }
 
     @GetMapping()
-    PageDto<OrderDto> findAll(
-            @RequestParam(defaultValue = "0") Integer pageNumber,
-            @RequestParam(defaultValue = "10") Integer totalPages
+    PageDto<OrderDto> findAll(@RequestParam(defaultValue = "0", name = "page_number")
+                                      Integer pageNumber,
+                              @RequestParam(defaultValue = "10", name = "page_size")
+                                      Integer pageSize,
+                              @RequestParam(defaultValue = " ",name = "search") String search
     ) {
-        return orderService.findAll(pageNumber, totalPages);
+        return orderService.findAll(pageNumber, pageSize,search);
     }
     @GetMapping(value = "/{order_id}")
     OrderDto findById(@PathVariable(name = "order_id") String orderId) {
         try {
             UUID uuid = UUID.fromString(orderId);
             return orderService.findById(uuid);
+        } catch (IllegalArgumentException e) {
+            throw new ApiRequestException("Wrong id");
+        }
+    }
+    @GetMapping(value = "/get_user_order")
+    List<OrderDto> findOrdersByToken() {
+        try {
+            return orderService.findOrdersByToken();
         } catch (IllegalArgumentException e) {
             throw new ApiRequestException("Wrong id");
         }

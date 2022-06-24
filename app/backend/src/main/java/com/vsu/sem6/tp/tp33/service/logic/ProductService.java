@@ -6,7 +6,7 @@ import com.vsu.sem6.tp.tp33.service.model.ProductDto;
 import java.util.UUID;
 
 public interface ProductService {
-    PageDto<ProductDto> findAll(Integer pageNumber, Integer totalPages);
+    PageDto<ProductDto> findAll(Integer pageNumber, Integer pageSize, String search);
 
     ProductDto create(ProductDto productDto);
 

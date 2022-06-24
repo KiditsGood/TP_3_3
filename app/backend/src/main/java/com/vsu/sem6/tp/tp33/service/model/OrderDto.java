@@ -18,7 +18,6 @@ public class OrderDto {
     private String payment;
     private String comment;
     private String address;
-
     private UserDto user;
     private List<ProductOrderDto> productOrders;
 }

@@ -23,11 +23,13 @@ public class ProductController {
     }
 
     @GetMapping()
-    PageDto<ProductDto> findAll(
-            @RequestParam(defaultValue = "0") Integer pageNumber,
-            @RequestParam(defaultValue = "10") Integer totalPages
+    PageDto<ProductDto> findAll(@RequestParam(defaultValue = "0", name = "page_number")
+                                        Integer pageNumber,
+                                @RequestParam(defaultValue = "10", name = "page_size")
+                                        Integer pageSize,
+                                @RequestParam(defaultValue = " ",name = "search") String search
     ) {
-        return productService.findAll(pageNumber, totalPages);
+        return productService.findAll(pageNumber, pageSize,search);
     }
     @GetMapping(value = "/{product_id}")
     ProductDto findById(@PathVariable(name = "product_id") String productId) {

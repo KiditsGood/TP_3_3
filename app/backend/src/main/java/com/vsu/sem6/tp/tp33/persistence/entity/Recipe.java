@@ -21,9 +21,11 @@ public class Recipe {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="recipe_id")
     private List<RecipePhoto> photos;
-    @ManyToOne
-    private User creator;
+//    @ManyToOne
+//    private User creator;
+    private UUID creator;
     private String status;
+    private UUID mainPhoto;
     @ManyToMany()
     private List<Product> products;
 }

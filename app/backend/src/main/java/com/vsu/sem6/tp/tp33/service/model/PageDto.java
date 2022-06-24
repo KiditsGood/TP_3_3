@@ -1,5 +1,4 @@
 package com.vsu.sem6.tp.tp33.service.model;
-
 import org.immutables.value.Value;
 
 import java.util.List;
@@ -8,10 +7,10 @@ import java.util.List;
 public interface PageDto<T> {
 
 
-
   List<T> getItems();
 
   int getPageNumber();
 
-  int getTotalPages();
+  long getTotalElements();
+  int getPageSize();
 }
