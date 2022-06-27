@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="js/essentials.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+    <script src="js/handleToken.js"></script>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/connect_modal.css">
+    <title>Главная страница</title>
+</head>
+<body>
+<header class="header">
+    <div class="header__left">
+        <a href="index.html" class="header__left-logo"><img src="img/products.svg"/>PROSHOP</a>
+        <a class="header--item"><img class="svg" src="img/catalog.svg"/>Каталог</a>
+    </div>
+    <div class="header__right">
+        <a class="header--item"><img class="svg" src="img/cart.svg"/>Корзина</a>
+        <a class="header--item"><img class="svg" src="img/user.svg"/>Войти</a>
+    </div>
+</header>
+<main class="wrapper">
+    <div class="main">
+        <div class="cart">
+            <!--<p class="cart__free">Нет товаров...</p>-->
+            <div class="cart__item">
+                <div class="cart__item-right">
+                    <img class="cart__item-image" src="img/banana.jpeg"/>
+                    <p class="cart__item-name">МорковьМорковьМорковьМорковьМорковьМорковьМорковьМорковьМорковьМорковьМорковьМорковьМорковьМорковь</p>
+                    <p class="cart__item-desc">МорковьМорковьМорковьМорковьМорковьМорковьМорковьМорковьМорковьМорковьМорковьМорковьМорковьМорковь</p>
+                </div>
+                <div class="cart__item-left">
+                    <div class="cart__item-value">
+                        <p class="cart__item-value--text">Кол-во:</p>
+                        <input class="cart__item-value--input" type="number" min="1" max="100" value="1">
+                        <a class="cart__item-value--input--plus">+</a>
+                    </div>
+                    <a class="cart__item-buy">Удалить</a>
+                </div>
+            </div>
+            <a class="cart__order">Оформить заказ</a>
+        </div>
+    </div>
+</main>
+<footer class="footer">
+
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<script src="js/cart.js"></script>
+</body>
+</html>
