@@ -1,5 +1,6 @@
 package com.vsu.sem6.tp.tp33.service.model;
 
+import com.vsu.sem6.tp.tp33.persistence.entity.Role;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+
 public class UserDto {
     private UUID id;
     private String firstName;
@@ -22,5 +24,6 @@ public class UserDto {
     private List<RecipeDto> favouriteRecipes;
     private List<ProductDto> favouriteProducts;
     private List<ProductCartDto> productCarts;
-    private List<OrderDto> orders;
+
+
 }

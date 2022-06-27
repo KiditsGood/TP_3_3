@@ -1,8 +1,10 @@
 package com.vsu.sem6.tp.tp33.service.logic.impl;
 
 import com.vsu.sem6.tp.tp33.controller.exception.ApiRequestException;
+import com.vsu.sem6.tp.tp33.persistence.entity.Product;
 import com.vsu.sem6.tp.tp33.persistence.entity.ProductPhoto;
 import com.vsu.sem6.tp.tp33.persistence.repository.ProductPhotoRepository;
+import com.vsu.sem6.tp.tp33.persistence.repository.ProductRepository;
 import com.vsu.sem6.tp.tp33.service.logic.ProductPhotoService;
 import com.vsu.sem6.tp.tp33.service.mapper.ProductPhotoMapper;
 import com.vsu.sem6.tp.tp33.service.model.ProductPhotoDto;
@@ -26,13 +28,14 @@ import java.util.UUID;
 @Transactional
 public class ProductPhotoServiceImpl implements ProductPhotoService {
     private final ProductPhotoRepository productPhotoRepository;
-
+    private final ProductRepository productRepository;
     private final ProductPhotoMapper productPhotoMapper;
 
     @Autowired
-    public ProductPhotoServiceImpl(ProductPhotoRepository productPhotoRepository, ProductPhotoMapper productPhotoMapper) {
+    public ProductPhotoServiceImpl(ProductPhotoRepository productPhotoRepository, ProductPhotoMapper productPhotoMapper,ProductRepository productRepository) {
         this.productPhotoRepository = productPhotoRepository;
         this.productPhotoMapper = productPhotoMapper;
+        this.productRepository=productRepository;
     }
 
     @Override
@@ -40,22 +43,26 @@ public class ProductPhotoServiceImpl implements ProductPhotoService {
         String fileName = StringUtils.cleanPath(photoDto.getContent().getOriginalFilename());
         String uploadDir = "product-photos/" + photoDto.getProductId();
         String filePath = Paths.get(uploadDir).resolve(fileName).toString();
-        if (!productPhotoRepository.existsByPhoto(filePath)) {
+
             try {
                 FileUploadUtil.saveFile(uploadDir, fileName, photoDto.getContent());
                 ProductPhoto nphoto=productPhotoMapper.toEntity(photoDto);
                 nphoto.setPhoto(filePath);
-                return productPhotoMapper.fromEntity(productPhotoRepository.save(nphoto));
+                ProductPhoto productPhoto= productPhotoRepository.save(nphoto);
+                Product product= productRepository.findById(photoDto.getProductId()).get();
+                product.setMainPhoto(productPhoto.getId());
+                productRepository.save(product);
+                return productPhotoMapper.fromEntity(productPhoto);
             } catch (IOException e) {
                 e.printStackTrace();
-            }} else {
-            throw new ApiRequestException("Photo already exist");
-        }
+            }
+
         return photoDto;
     }
 
     @Override
     public void deleteById(UUID id) throws IOException {
+
         if (productPhotoRepository.existsById(id)) {
             Path path=Paths.get(productPhotoRepository.findById(id).get().getPhoto());
             productPhotoRepository.deleteById(id);

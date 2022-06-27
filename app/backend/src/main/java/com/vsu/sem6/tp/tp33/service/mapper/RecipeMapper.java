@@ -10,4 +10,5 @@ public interface RecipeMapper {
     RecipeDto fromEntity(Recipe recipe,@Context CycleAvoidingMappingContext context);
 
     Recipe toEntity(RecipeDto dto);
+    Recipe test(Recipe test);
 }

@@ -15,7 +15,8 @@ public class RecipeDto {
     private String name;
     private String description;
     //private List<RecipePhotoDto> photos;
-    private UserDto creator;
+    private UUID creator;
     private String status;
     private List<ProductDto> products;
+    private UUID mainPhoto;
 }

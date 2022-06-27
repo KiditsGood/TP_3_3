@@ -22,6 +22,8 @@ public class User {
     private String lastName;
     private String patronymic;
     private LocalDate birthday;
+    private String password;
+    @Column(unique = true)
     private String email;
     private String phoneNumber;
     @ManyToMany
@@ -30,7 +32,10 @@ public class User {
     private List<Product> favouriteProducts;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user",orphanRemoval=true)
     private List<ProductCart> productCarts;
-
-    @OneToMany(mappedBy = "user")
-    private List<Order> orders;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+   // @OneToMany(mappedBy = "user")
+//    @OneToMany
+//    private List<Order> orders;
 }

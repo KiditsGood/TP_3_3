@@ -1,8 +1,12 @@
 package com.vsu.sem6.tp.tp33.service.logic.impl;
 
 import com.vsu.sem6.tp.tp33.controller.exception.ApiRequestException;
+import com.vsu.sem6.tp.tp33.persistence.entity.Product;
+import com.vsu.sem6.tp.tp33.persistence.entity.ProductPhoto;
+import com.vsu.sem6.tp.tp33.persistence.entity.Recipe;
 import com.vsu.sem6.tp.tp33.persistence.entity.RecipePhoto;
 import com.vsu.sem6.tp.tp33.persistence.repository.RecipePhotoRepository;
+import com.vsu.sem6.tp.tp33.persistence.repository.RecipeRepository;
 import com.vsu.sem6.tp.tp33.service.logic.RecipePhotoService;
 import com.vsu.sem6.tp.tp33.service.mapper.RecipePhotoMapper;
 import com.vsu.sem6.tp.tp33.service.model.RecipePhotoDto;
@@ -26,13 +30,14 @@ import java.util.UUID;
 @Transactional
 public class RecipePhotoServiceImpl implements RecipePhotoService {
     private final RecipePhotoRepository recipePhotoRepository;
-
+    private final RecipeRepository recipeRepository;
     private final RecipePhotoMapper recipePhotoMapper;
 
     @Autowired
-    public RecipePhotoServiceImpl(RecipePhotoRepository recipePhotoRepository, RecipePhotoMapper recipePhotoMapper) {
+    public RecipePhotoServiceImpl(RecipePhotoRepository recipePhotoRepository, RecipePhotoMapper recipePhotoMapper,RecipeRepository recipeRepository) {
         this.recipePhotoRepository = recipePhotoRepository;
         this.recipePhotoMapper = recipePhotoMapper;
+        this.recipeRepository=recipeRepository;
     }
 
 
@@ -41,16 +46,19 @@ public class RecipePhotoServiceImpl implements RecipePhotoService {
         String fileName = StringUtils.cleanPath(photoDto.getContent().getOriginalFilename());
         String uploadDir = "recipe-photos/" + photoDto.getRecipeId();
         String filePath = Paths.get(uploadDir).resolve(fileName).toString();
-        if (!recipePhotoRepository.existsByPhoto(filePath)) {
+
             try {
                 FileUploadUtil.saveFile(uploadDir, fileName, photoDto.getContent());
                 RecipePhoto nphoto=recipePhotoMapper.toEntity(photoDto);
                 nphoto.setPhoto(filePath);
-                return recipePhotoMapper.fromEntity(recipePhotoRepository.save(nphoto));
+                RecipePhoto recipePhoto= recipePhotoRepository.save(nphoto);
+                Recipe recipe= recipeRepository.findById(photoDto.getRecipeId()).get();
+                recipe.setMainPhoto(recipePhoto.getId());
+                recipeRepository.save(recipe);
+                return recipePhotoMapper.fromEntity(recipePhoto);
             } catch (IOException e) {
                 e.printStackTrace();
-            }} else {
-            throw new ApiRequestException("Photo already exist");
+
         }
         return photoDto;
     }
