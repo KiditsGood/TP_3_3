@@ -29,9 +29,9 @@ $(document).ready(function () {
                     birthday: profileBirthday.val(),
                     phoneNumber: profilePhone.val(),
                     email: profileEmail.val(),
-                    favouriteProducts: [],
-                    favouriteRecipes: [],
-                    productCarts: [],
+                    favouriteProducts: data.favouriteProducts,
+                    favouriteRecipes: data.favouriteRecipes,
+                    productCarts: data.productCarts,
                     id: data.id
                 })
 
