@@ -32,7 +32,8 @@ $(document).ready(function () {
                     favouriteProducts: data.favouriteProducts,
                     favouriteRecipes: data.favouriteRecipes,
                     productCarts: data.productCarts,
-                    id: data.id
+                    id: data.id,
+                    password: data.password
                 })
 
                 sendRequest('https://tp3-3.herokuapp.com/users', profileData, 'PUT', {'Content-Type': 'application/json'}, function (data) {})
