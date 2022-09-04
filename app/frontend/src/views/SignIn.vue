@@ -25,12 +25,20 @@
 
         methods: {
             async handleSubmit() {
-                const response = await axios.post('https://tp3-3.herokuapp.com/users/auth', {
+                const response = await axios.post('users/auth', {
                     email: this.email,
                     password: this.password
                 })
 
-                localStorage.setItem('token', response.data.token)
+                if (response) {
+                    localStorage.setItem('token', response.data.token)
+                    const userCheck = await axios.get('users/get_user')
+
+                    if (userCheck) {
+                        localStorage.setItem('userEmail', userCheck.data.email)
+                        this.$router.push('/')
+                    }
+                }
             }
         }
     }

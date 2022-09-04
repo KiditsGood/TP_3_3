@@ -5,14 +5,36 @@
             <a class="header--item"><img class="svg" src="../assets/static/img/catalog.svg"/>Каталог</a>
         </div>
         <div class="header__right">
-            <a class="header--item"><img class="svg" src="../assets/static/img/user.svg"/>Войти</a>
+            <a class="header--item" v-if="user"><img class="svg" src="../assets/static/img/user.svg"/>{{ user }} <a @click="logout">Выйти</a></a>
+            <a href="/sign_in" class="header--item" v-else><img class="svg" src="../assets/static/img/user.svg"/>Войти</a>
         </div>
     </header>
 </template>
 
 <script>
+    import axios from "axios";
+
     export default {
-        name: "AppHeader"
+        name: "AppHeader",
+        data () {
+            return{
+                user: null
+            }
+        },
+        methods: {
+            getUser() {
+                this.user = localStorage.getItem('userEmail')
+                console.log(localStorage.getItem('userEmail'))
+            },
+            logout() {
+                localStorage.removeItem('token')
+                localStorage.removeItem('userEmail')
+                this.$router.push('/')
+            }
+        },
+        beforeMount() {
+            this.getUser()
+        }
     }
 </script>
 

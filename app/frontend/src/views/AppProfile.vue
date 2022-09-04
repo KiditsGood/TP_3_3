@@ -5,27 +5,27 @@
             <div class="profile--left">
                 <div class="profile__item">
                     <p class="profile__item-title">Фамилия:</p>
-                    <input :value="surname" @input="surname = $event.target.value" id="profile--surname" class="profile__item-value" value="">
+                    <input v-model="surname" id="profile--surname" class="profile__item-value">
                 </div>
                 <div class="profile__item">
                     <p class="profile__item-title">Имя:</p>
-                    <input :value="name" @input="name = $event.target.value" id="profile--name" class="profile__item-value" value="">
+                    <input v-model="name" id="profile--name" class="profile__item-value">
                 </div>
                 <div class="profile__item">
                     <p class="profile__item-title">Отчество:</p>
-                    <input :value="patronymic" @input="patronymic = $event.target.value" id="profile--patronymic" class="profile__item-value" value="">
+                    <input v-model="patronymic" id="profile--patronymic" class="profile__item-value">
                 </div>
                 <div class="profile__item">
                     <p class="profile__item-title">Дата рождения:</p>
-                    <input :value="birthday" @input="birthday = $event.target.value" type="date" id="profile--birthday" class="profile__item-value" value="">
+                    <input v-model="birthday" type="date" id="profile--birthday" class="profile__item-value">
                 </div>
                 <div class="profile__item">
                     <p class="profile__item-title">Номер телефона:</p>
-                    <input :value="phone" @input="phone = $event.target.value" id="profile--phone" class="profile__item-value" value="">
+                    <input v-model="phone" id="profile--phone" class="profile__item-value">
                 </div>
                 <div class="profile__item">
                     <p class="profile__item-title">E-Mail:</p>
-                    <input :value="email" @input="email = $event.target.value" id="profile--email" class="profile__item-value" value="">
+                    <input v-model="email" id="profile--email" class="profile__item-value">
                 </div>
                 <button type="button" class="profile__edit">Редактировать</button>
             </div>
