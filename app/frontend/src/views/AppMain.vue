@@ -6,15 +6,7 @@
     import AppHeader from "@/components/AppHeader";
     export default {
         name: "AppMain",
-        components: {AppHeader},
-        data() {
-            return {
-
-            }
-        },
-        methods: {
-
-        }
+        components: {AppHeader}
     }
 </script>
 

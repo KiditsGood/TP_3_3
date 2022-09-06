@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <form @submit.prevent="handleSubmit" class="auth">
+        <form @submit.prevent="logIn" class="auth">
             <a href="/" class="header__left-logo"><img src="../assets/static/img/products.svg"/>PROSHOP</a>
             <input v-model="email" id="email" type="email" maxlength="15" class="auth--item" placeholder="Введите e-mail..."/>
             <input v-model="password" id="password" type="password" class="auth--item" placeholder="Введите пароль..."/>
@@ -11,34 +11,37 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import {mapMutations} from "vuex";
+    import { API } from "@/axios";
 
     export default {
         name: "SignIn",
-
-        data(){
-            return{
+        beforeCreate() {
+            if (this.$store.state.user !== null) this.$router.push('/')
+        },
+        data() {
+            return {
                 email: '',
                 password: ''
             }
         },
-
         methods: {
-            async handleSubmit() {
-                const response = await axios.post('users/auth', {
+            ...mapMutations(['setUser', 'setAccessToken']),
+            async logIn() {
+                const res = await API.post('users/auth', {
                     email: this.email,
                     password: this.password
                 })
-
-                if (response) {
-                    localStorage.setItem('token', response.data.token)
-                    const userCheck = await axios.get('users/get_user')
-
-                    if (userCheck) {
-                        localStorage.setItem('userEmail', userCheck.data.email)
-                        this.$router.push('/')
+                this.$cookies.set('access-token', res.data.token) // заносим токен в куки
+                this.setAccessToken(res.data.token)
+                const user = await API.get('users/get_user', {
+                    headers: {
+                        'Authorization':'Bearer ' + res.data.token
                     }
-                }
+                })
+                this.setUser(user.data)
+                this.$cookies.set('user', user.data)
+                this.$router.push('/')
             }
         }
     }

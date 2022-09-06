@@ -5,35 +5,45 @@
             <a class="header--item"><img class="svg" src="../assets/static/img/catalog.svg"/>Каталог</a>
         </div>
         <div class="header__right">
-            <a class="header--item" v-if="user"><img class="svg" src="../assets/static/img/user.svg"/>{{ user }} <a @click="logout">Выйти</a></a>
+            <div v-if="user !== null">
+                <a href="/profile" class="header--item"><img class="svg" src="../assets/static/img/user.svg"/>{{ user.email }}</a>
+                <a @click="logout">Выйти</a>
+            </div>
+
             <a href="/sign_in" class="header--item" v-else><img class="svg" src="../assets/static/img/user.svg"/>Войти</a>
         </div>
     </header>
 </template>
 
 <script>
-    import axios from "axios";
+    import {mapGetters, mapMutations} from 'vuex'
 
     export default {
         name: "AppHeader",
-        data () {
-            return{
-                user: null
-            }
+
+        data() {
+          return {
+
+          }
         },
+
+        computed: {
+            ...mapGetters(['user'])
+        },
+        beforeCreate() {
+            if (this.$store.state.user === null) this.$router.push('/sign_in')
+        },
+
+        async mounted() {
+            await this.$store.dispatch('getUser')
+        },
+
         methods: {
-            getUser() {
-                this.user = localStorage.getItem('userEmail')
-                console.log(localStorage.getItem('userEmail'))
-            },
+            ...mapMutations(['logOutUser']),
             logout() {
-                localStorage.removeItem('token')
-                localStorage.removeItem('userEmail')
-                this.$router.push('/')
+                this.logOutUser()
+                this.$router.go('/')
             }
-        },
-        beforeMount() {
-            this.getUser()
         }
     }
 </script>
