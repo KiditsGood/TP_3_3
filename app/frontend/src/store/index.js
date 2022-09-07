@@ -8,7 +8,7 @@ Vue.use(VueCookies)
 
 export default new Vuex.Store({
   state: {
-    accessToken: Vue.$cookies.get('Authorization') ? Vue.$cookies.get('Authorization') : null, // смотрим есть ли токен авторизации в куки
+    accessToken: Vue.$cookies.get('access-token') ? Vue.$cookies.get('access-token') : null, // смотрим есть ли токен авторизации в куки
     user: Vue.$cookies.get('user') ? Vue.$cookies.get('user') : null, // смотрим есть ли инстанс юзера в куки
     dataFetched: true // хук чтобы понять надо ли показывать лоадер
   },
