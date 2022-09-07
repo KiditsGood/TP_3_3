@@ -38,7 +38,7 @@
 <script>
     import AppHeader from "@/components/AppHeader";
     import {mapGetters} from "vuex";
-    import {API} from "@/axios";
+    import API from "@/axios";
     export default {
         name: "AppProfile",
         components: {AppHeader},
