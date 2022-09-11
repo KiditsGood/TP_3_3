@@ -4,6 +4,8 @@ import AppMain from "@/views/AppMain";
 import AppProfile from "@/views/AppProfile";
 import SignIn from "@/views/SignIn";
 import SignUp from "@/views/SignUp";
+import AppCatalog from "@/views/AppCatalog";
+import CatalogVegetables from "@/views/CatalogVegetables";
 
 Vue.use(VueRouter)
 
@@ -27,6 +29,16 @@ const routes = [
     path: '/sign_up',
     name: 'Reg',
     component: SignUp
+  },
+  {
+    path: '/catalog',
+    name: 'Catalog',
+    component: AppCatalog
+  },
+  {
+    path: '/catalog/vegetables',
+    name: 'Vegetables',
+    component: CatalogVegetables
   }
 ]
 

@@ -6,6 +6,7 @@
   font-family: 'Montserrat', sans-serif;
   outline: none;
   border: none;
+  background: none;
   text-decoration: none;
 }
 
@@ -21,4 +22,10 @@ a:hover{
 .main{
   margin: 150px auto;
   max-width: 1480px;
+
+  &__flex{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
 }

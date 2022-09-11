@@ -38,7 +38,8 @@
 <script>
     import AppHeader from "@/components/AppHeader";
     import {mapGetters} from "vuex";
-    import {API} from "@/axios";
+    import {AuthAPI} from "@/axios";
+    import Vue from "vue";
     export default {
         name: "AppProfile",
         components: {AppHeader},
@@ -90,7 +91,7 @@
 
                     }
                     else {
-                        await API.put('users', {
+                        await AuthAPI.put('users', {
                             lastName: this.surname,
                             firstName: this.name,
                             patronymic: this.patronymic,
@@ -103,6 +104,12 @@
                             productCarts: this.user.productCarts,
                             id: this.user.id,
                         })
+
+                        const updUser = await AuthAPI.get('users/get_user')
+
+
+                        this.$cookies.remove('user')
+                        this.$cookies.set('user', updUser.data)
                     }
                 }
             }
