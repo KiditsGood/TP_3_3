@@ -18,24 +18,14 @@
     export default {
         name: "ProductCard",
 
-        data() {
-            return {
-                product: {
-                    category: '',
-                    description: '',
-                    id: '',
-                    mainPhoto: '',
-                    name: '',
-                    price: '',
-                    status: ''
-                }
+        props: {
+            product: {
+                type: Object,
+                required: true
             }
-        },
-
-        methods: {
-
         }
     }
+
 </script>
 
 <style lang="scss" scoped>
