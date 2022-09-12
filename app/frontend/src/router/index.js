@@ -6,6 +6,9 @@ import SignIn from "@/views/SignIn";
 import SignUp from "@/views/SignUp";
 import AppCatalog from "@/views/AppCatalog";
 import CatalogVegetables from "@/views/CatalogVegetables";
+import CatalogBread from "@/views/CatalogBread";
+import CatalogDrinks from "@/views/CatalogDrinks";
+import CatalogMeet from "@/views/CatalogMeet";
 
 Vue.use(VueRouter)
 
@@ -39,6 +42,21 @@ const routes = [
     path: '/catalog/vegetables',
     name: 'Vegetables',
     component: CatalogVegetables
+  },
+  {
+    path: '/catalog/bread',
+    name: 'Bread',
+    component: CatalogBread
+  },
+  {
+    path: '/catalog/drinks',
+    name: 'Drinks',
+    component: CatalogDrinks
+  },
+  {
+    path: '/catalog/meet',
+    name: 'Meet',
+    component: CatalogMeet
   }
 ]
 

@@ -2,10 +2,10 @@
     <header class="header">
         <div class="header__left">
             <a href="/" class="header__left-logo"><img src="../assets/static/img/products.svg"/>PROSHOP</a>
-            <a class="header--item"><img class="svg" src="../assets/static/img/catalog.svg"/>Каталог</a>
+            <router-link to="/catalog" class="header--item"><img class="svg" src="../assets/static/img/catalog.svg"/>Каталог</router-link>
         </div>
         <div class="header__right">
-            <div v-if="user !== null">
+            <div class="header__out" v-if="user !== null">
                 <a href="/profile" class="header--item"><img class="svg" src="../assets/static/img/user.svg"/>{{ user.email }}</a>
                 <a @click="logout">Выйти</a>
             </div>
@@ -82,6 +82,19 @@
             display: flex;
             align-items: center;
             gap: 5px;
+        }
+
+        &__out{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            & a:last-child{
+                color: #009900;
+                text-decoration: underline;
+                font-size: 16px;
+                font-weight: 500;
+            }
         }
     }
     .svg{

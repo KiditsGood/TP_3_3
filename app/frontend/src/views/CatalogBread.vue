@@ -4,7 +4,7 @@
         <div class="main">
             <div class="main__flex">
                 <div class="main__products">
-                    <ProductCard v-if="product.category == 'Овощи'" v-for="product in searchHandler" :product="product" :key="product.id"/>
+                    <ProductCard v-if="product.category == 'Хлеб, выпечка'" v-for="product in searchAndSortHandler" :product="product" :key="product.id"/>
                 </div>
                 <div class="main__search">
                     <input v-model="searchQuery" type="text" maxlength="20" class="main__search-input" placeholder="Введите название..."/>
@@ -18,8 +18,9 @@
                     <button type="button" class="main__search-button--filter">Фильтрация</button>
                     <div class="main__search-flex">
                         <p class="main__search-filter">Сортировка по цене</p>
-                        <select class="main__search-select">
-                            <option>По возрастанию</option>
+                        <select v-model="sortValue" @change="changeOption" class="main__search-select">
+                            <option disabled selected value="">Выберите из списка</option>
+                            <option :value="products">По возрастанию</option>
                             <option>По убыванию</option>
                         </select>
                     </div>
@@ -42,7 +43,9 @@
         data() {
             return {
                 products: [],
-                searchQuery: ''
+                searchQuery: '',
+                sortValue: '',
+                options: []
             }
         },
 
@@ -53,6 +56,9 @@
                 this.products = prodResp.data
             },
 
+            changeOption(event) {
+                this.$emit('update:sortValue', event.target.value)
+            }
         },
 
         mounted() {
@@ -60,8 +66,12 @@
         },
 
         computed: {
-            searchHandler() {
-                return this.products.filter(product => product.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
+            sortedPosts() {
+                return this.products.arrays.sort((a, b) => a.price - b.price)
+            },
+
+            searchAndSortHandler() {
+                return this.sortedPosts.filter(product => product.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
             }
         }
 

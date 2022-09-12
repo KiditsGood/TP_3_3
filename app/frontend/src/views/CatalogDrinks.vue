@@ -4,7 +4,7 @@
         <div class="main">
             <div class="main__flex">
                 <div class="main__products">
-                    <ProductCard v-if="product.category == 'Овощи'" v-for="product in searchHandler" :product="product" :key="product.id"/>
+                    <ProductCard v-if="product.category == 'Напитки'" v-for="product in searchHandler" :product="product" :key="product.id"/>
                 </div>
                 <div class="main__search">
                     <input v-model="searchQuery" type="text" maxlength="20" class="main__search-input" placeholder="Введите название..."/>
