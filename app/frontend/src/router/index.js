@@ -9,6 +9,7 @@ import CatalogVegetables from "@/views/CatalogVegetables";
 import CatalogBread from "@/views/CatalogBread";
 import CatalogDrinks from "@/views/CatalogDrinks";
 import CatalogMeet from "@/views/CatalogMeet";
+import AppRecipes from "@/views/AppRecipes";
 
 Vue.use(VueRouter)
 
@@ -57,6 +58,11 @@ const routes = [
     path: '/catalog/meet',
     name: 'Meet',
     component: CatalogMeet
+  },
+  {
+    path: '/recipes',
+    name: 'Recipes',
+    component: AppRecipes
   }
 ]
 

@@ -5,6 +5,14 @@
             <router-link to="/catalog" class="header--item"><img class="svg" src="../assets/static/img/catalog.svg"/>Каталог</router-link>
         </div>
         <div class="header__right">
+          <router-link to="/recipes" class="header--item">
+            <img src="../assets/static/img/recipes.svg" alt="" class="svg">
+            Рецепты
+          </router-link>
+          <router-link to="/recipes" class="header--item">
+            <img src="../assets/static/img/cart.svg" alt="" class="svg">
+            Корзина
+          </router-link>
             <div class="header__out" v-if="user !== null">
                 <a href="/profile" class="header--item"><img class="svg" src="../assets/static/img/user.svg"/>{{ user.email }}</a>
                 <a @click="logout">Выйти</a>
@@ -95,6 +103,12 @@
                 font-size: 16px;
                 font-weight: 500;
             }
+        }
+
+        &__right{
+          display: flex;
+          align-items: center;
+          gap: 30px;
         }
     }
     .svg{

@@ -1,6 +1,6 @@
 <template>
     <div class="products__item">
-        <svg class="products__item-like" width="24" height="24" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" color="#E5E6E8"><path d="M19.1 7.25a5.06 5.06 0 00-4.96-4.75c-1.73 0-3.25.98-4.14 2.38A4.97 4.97 0 005.86 2.5 5.05 5.05 0 00.9 7.25c-.82 4.7 6.02 8.5 9.1 11.08 3.09-2.58 9.9-6.37 9.1-11.08z" fill="#E5E6E8"></path></svg>
+        <svg @click="favoriteHandler" class="products__item-like" width="24" height="24" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" color="#E5E6E8"><path d="M19.1 7.25a5.06 5.06 0 00-4.96-4.75c-1.73 0-3.25.98-4.14 2.38A4.97 4.97 0 005.86 2.5 5.05 5.05 0 00.9 7.25c-.82 4.7 6.02 8.5 9.1 11.08 3.09-2.58 9.9-6.37 9.1-11.08z" fill="#E5E6E8"></path></svg>
         <img class="products__item-image" src=""/>
         <p class="products__item-title">{{ product.name }}</p>
         <div class="products__desc">
@@ -15,13 +15,47 @@
 </template>
 
 <script>
+    import {AuthAPI} from "@/axios";
+    import {mapGetters} from "vuex";
+
     export default {
         name: "ProductCard",
+        
+        computed: {
+          ...mapGetters(["user"])
+        },
+        
+        data() {
+            return {
+                favouriteProducts: []
+            }
+        },
 
         props: {
             product: {
                 type: Object,
                 required: true
+            }
+        },
+        
+        methods: {
+            async favoriteHandler() {
+                this.user.favouriteProducts.push(this.product)
+             
+                await AuthAPI.put('users', {
+                    lastName: this.user.lastName,
+                    firstName: this.user.firstName,
+                    patronymic: this.user.patronymic,
+                    birthday: this.user.birthday,
+                    phoneNumber: this.user.phoneNumber,
+                    email: this.user.email,
+                    password: this.user.password,
+                    favouriteProducts: this.user.favouriteProducts,
+                    favouriteRecipes: this.user.favouriteRecipes,
+                    productCarts: this.user.productCarts,
+                    id: this.user.id,
+                })
+                
             }
         }
     }
