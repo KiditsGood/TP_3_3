@@ -39,7 +39,7 @@ export default new Vuex.Store({
       if (state.accessToken === null) return // если юзер не залогинен - не отправляем
       try {
         commit('setFetchedState', false)
-        const response = await API.get('users/get_user', {
+        const response = await API.get('users/getUser', {
           headers: {
             'Authorization': 'Bearer ' + state.accessToken
           }

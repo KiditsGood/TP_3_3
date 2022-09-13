@@ -1,6 +1,7 @@
 <template>
     <div class="products__item">
-        <svg @click="favoriteHandler" class="products__item-like" width="24" height="24" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" color="#E5E6E8"><path d="M19.1 7.25a5.06 5.06 0 00-4.96-4.75c-1.73 0-3.25.98-4.14 2.38A4.97 4.97 0 005.86 2.5 5.05 5.05 0 00.9 7.25c-.82 4.7 6.02 8.5 9.1 11.08 3.09-2.58 9.9-6.37 9.1-11.08z" fill="#E5E6E8"></path></svg>
+        <svg v-if="!checkFav" @click="favoriteHandler" class="products__item-like" width="24" height="24" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" color="#E5E6E8"><path d="M19.1 7.25a5.06 5.06 0 00-4.96-4.75c-1.73 0-3.25.98-4.14 2.38A4.97 4.97 0 005.86 2.5 5.05 5.05 0 00.9 7.25c-.82 4.7 6.02 8.5 9.1 11.08 3.09-2.58 9.9-6.37 9.1-11.08z" fill="#E5E6E8"></path></svg>
+        <svg v-else @click="favoriteHandler" class="products__item-like" width="24" height="24" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" color="#E5E6E8"><path d="M19.1 7.25a5.06 5.06 0 00-4.96-4.75c-1.73 0-3.25.98-4.14 2.38A4.97 4.97 0 005.86 2.5 5.05 5.05 0 00.9 7.25c-.82 4.7 6.02 8.5 9.1 11.08 3.09-2.58 9.9-6.37 9.1-11.08z" fill="red"></path></svg>
         <img class="products__item-image" src=""/>
         <p class="products__item-title">{{ product.name }}</p>
         <div class="products__desc">
@@ -27,7 +28,8 @@
         
         data() {
             return {
-                favouriteProducts: []
+                isFavourite: false,
+                checkFav: false
             }
         },
 
@@ -40,23 +42,57 @@
         
         methods: {
             async favoriteHandler() {
-                this.user.favouriteProducts.push(this.product)
-             
+                const favResp = await AuthAPI.get('users/get_user')
+
+                let favProducts = favResp.data.favouriteProducts
+
+                this.isFavourite = false
+
+                for (let i = 0; i < favProducts.length; i++){
+                    if (favProducts[i].id === this.product.id) {
+                        this.isFavourite = true
+                    }
+                }
+
+                if (this.isFavourite) {
+                    favProducts = favProducts.filter((el) => {return el.id !== this.product.id})
+
+                    this.checkFav = false
+                }
+                else {
+                    favProducts.push(this.product)
+
+                    this.checkFav = true
+                }
+
                 await AuthAPI.put('users', {
-                    lastName: this.user.lastName,
-                    firstName: this.user.firstName,
-                    patronymic: this.user.patronymic,
-                    birthday: this.user.birthday,
-                    phoneNumber: this.user.phoneNumber,
-                    email: this.user.email,
-                    password: this.user.password,
-                    favouriteProducts: this.user.favouriteProducts,
-                    favouriteRecipes: this.user.favouriteRecipes,
-                    productCarts: this.user.productCarts,
-                    id: this.user.id,
+                    lastName: favResp.data.lastName,
+                    firstName: favResp.data.firstName,
+                    patronymic: favResp.data.patronymic,
+                    birthday: favResp.data.birthday,
+                    phoneNumber: favResp.data.phoneNumber,
+                    email: favResp.data.email,
+                    favouriteProducts: favProducts,
+                    favouriteRecipes: favResp.data.favouriteRecipes,
+                    productCarts: favResp.data.productCarts,
+                    id: favResp.data.id,
                 })
                 
+            },
+
+            async favoriteChecker() {
+                const checkerResp = await AuthAPI.get('users/get_user')
+
+                for (let i = 0; i < checkerResp.data.favouriteProducts.length; i++) {
+                    if (checkerResp.data.favouriteProducts[i].id === this.product.id) {
+                        this.checkFav = true
+                    }
+                }
             }
+        },
+
+        mounted() {
+            this.favoriteChecker()
         }
     }
 

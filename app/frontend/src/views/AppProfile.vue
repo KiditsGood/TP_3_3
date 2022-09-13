@@ -105,7 +105,7 @@
                             id: this.user.id,
                         })
 
-                        const updUser = await AuthAPI.get('users/get_user')
+                        const updUser = await AuthAPI.get('users/getUser')
 
 
                         this.$cookies.remove('user')

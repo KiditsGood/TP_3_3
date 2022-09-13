@@ -18,13 +18,12 @@
                     <button type="button" class="main__search-button--filter">Фильтрация</button>
                     <div class="main__search-flex">
                         <p class="main__search-filter">Сортировка по цене</p>
-                        <select v-model="sortValue" @change="changeOption" class="main__search-select">
+                        <select v-model="sortValue" class="main__search-select">
                             <option disabled selected value="">Выберите из списка</option>
-                            <option :value="products">По возрастанию</option>
+                            <option>По возрастанию</option>
                             <option>По убыванию</option>
                         </select>
                     </div>
-                    <button type="button" class="main__search-button--sort">Сортировка</button>
                 </div>
             </div>
         </div>
@@ -44,8 +43,7 @@
             return {
                 products: [],
                 searchQuery: '',
-                sortValue: '',
-                options: []
+                sortValue: ''
             }
         },
 
@@ -54,10 +52,6 @@
                 const prodResp = await API.get('products/all')
 
                 this.products = prodResp.data
-            },
-
-            changeOption(event) {
-                this.$emit('update:sortValue', event.target.value)
             }
         },
 
@@ -67,7 +61,7 @@
 
         computed: {
             sortedPosts() {
-                return this.products.arrays.sort((a, b) => a.price - b.price)
+                return [...this.products].sort((product1, product2) => this.sortValue === 'По возрастанию' ? product1.price - product2.price : this.sortValue === 'По убыванию' ? product2.price - product1.price : this.products)
             },
 
             searchAndSortHandler() {

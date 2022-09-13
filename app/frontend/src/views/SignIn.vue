@@ -34,7 +34,7 @@
                 })
                 this.$cookies.set('access-token', res.data.token) // заносим токен в куки
                 this.setAccessToken(res.data.token)
-                const user = await API.get('users/get_user', {
+                const user = await API.get('users/getUser', {
                     headers: {
                         'Authorization':'Bearer ' + res.data.token
                     }
