@@ -10,6 +10,7 @@ import CatalogBread from "@/views/CatalogBread";
 import CatalogDrinks from "@/views/CatalogDrinks";
 import CatalogMeet from "@/views/CatalogMeet";
 import AppRecipes from "@/views/AppRecipes";
+import AppFavourite from "@/views/AppFavourite";
 
 Vue.use(VueRouter)
 
@@ -63,6 +64,11 @@ const routes = [
     path: '/recipes',
     name: 'Recipes',
     component: AppRecipes
+  },
+  {
+    path: '/favourite',
+    name: 'Favourite',
+    component: AppFavourite
   }
 ]
 

@@ -5,12 +5,14 @@
         <img class="products__item-image" src=""/>
         <p class="products__item-title">{{ product.name }}</p>
         <div class="products__desc">
-            <a class="products__item-watch">Подробнее</a>
-            <p class="products__item-description">{{ product.description }}</p>
+            <a @click="show = !show" class="products__item-watch">Подробнее</a>
+            <transition name="fade">
+                <p v-if="show" class="products__item-description">{{ product.description }}</p>
+            </transition>
         </div>
         <div class="products__item-cost--flex">
             <p class="products__item-cost">{{ product.price }}</p>
-            <button type="button" class="products__item-buy">Купить</button>
+            <button @click="buyHandler" type="button" class="products__item-buy">Купить</button>
         </div>
     </div>
 </template>
@@ -29,7 +31,8 @@
         data() {
             return {
                 isFavourite: false,
-                checkFav: false
+                checkFav: false,
+                show: false
             }
         },
 
@@ -88,6 +91,35 @@
                         this.checkFav = true
                     }
                 }
+            },
+
+            async buyHandler(e) {
+                let buyElement = e.target
+
+                buyElement.innerHTML = 'В корзине'
+                buyElement.classList.add('active')
+
+                setTimeout(() => {
+                    buyElement.innerHTML = 'Купить'
+                    buyElement.classList.remove('active')
+                }, 1500)
+
+                const cartResp = await AuthAPI.get('users/get_user')
+
+                cartResp.data.productCarts.push(this.product)
+
+                await AuthAPI.put('users', {
+                    lastName: cartResp.data.lastName,
+                    firstName: cartResp.data.firstName,
+                    patronymic: cartResp.data.patronymic,
+                    birthday: cartResp.data.birthday,
+                    phoneNumber: cartResp.data.phoneNumber,
+                    email: cartResp.data.email,
+                    favouriteProducts: cartResp.data.favouriteProducts,
+                    favouriteRecipes: cartResp.data.favouriteRecipes,
+                    productCarts: cartResp.data.productCarts,
+                    id: cartResp.data.id,
+                })
             }
         },
 
@@ -126,7 +158,6 @@
             line-height: 16px;
             font-weight: 400;
             color: lightgray;
-            display: none;
         }
 
         &-cost{
@@ -152,10 +183,17 @@
             border-radius: 10px;
             padding: 10px;
             transition: 0.2s;
+            box-sizing: border-box;
+            width: 130px;
 
             &:hover{
                 opacity: 0.5;
                 cursor: pointer;
+            }
+
+            &.active{
+                background: #009900;
+                color: white;
             }
         }
 
@@ -188,5 +226,13 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+
+    .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+        opacity: 0;
     }
 </style>
