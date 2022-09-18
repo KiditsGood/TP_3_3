@@ -6,6 +6,34 @@
                 <div class="main__products">
                     <ProductCart v-for="cartProduct in cartProducts" :cartProduct="cartProduct" :key="cartProduct.id"/>
                 </div>
+                <form @submit.prevent="orderHandler" class="main__order">
+                    <p class="main__order-title">Оформить заказ</p>
+                    <div class="main__order-item">
+                        <p class="main__order-item--name">Способ оплаты</p>
+                        <select v-model="orderPayment" class="main__order-item--input">
+                            <option disabled selected>Выберите из списка</option>
+                            <option>Наличными или по карте при получении</option>
+                            <option>По карте</option>
+                        </select>
+                    </div>
+                    <div class="main__order-item">
+                        <p class="main__order-item--name">Адрес доставки</p>
+                        <input v-model="orderAddress" type="text" class="main__order-item--input">
+                    </div>
+                    <div class="main__order-item">
+                        <p class="main__order-item--name">Комментарий</p>
+                        <textarea v-model="orderComment" class="main__order-item--input"></textarea>
+                    </div>
+                    <button class="main__order-button" type="submit">Заказать</button>
+                </form>
+            </div>
+            <div class="history">
+                <p class="history__title">История заказов</p>
+                <div v-for="order in orders" :order="order" class="history__item">
+                    <p class="history__item-name"></p>
+                    <p class="history__item-name"></p>
+                    <p class="history__item-name"></p>
+                </div>
             </div>
         </div>
     </div>
@@ -21,7 +49,13 @@
 
         data() {
             return {
-                cartProducts: []
+                cartProducts: [],
+                orderPayment: '',
+                orderAddress: '',
+                orderComment: '',
+                orderResp: '',
+                productOrders: [],
+                orders: []
             }
         },
 
@@ -42,11 +76,51 @@
                         id: cartResp.data.productCarts[i].id.productId
                     })
                 }
+            },
+
+            async orderHandler() {
+                this.orderResp = await AuthAPI.get('users/get_user')
+                const currOrdersSize = this.cartProducts.length
+
+                let respId = ''
+
+                await AuthAPI.post('orders', {
+                    status: 'В обработке',
+                    payment: this.orderPayment,
+                    address: this.orderAddress,
+                    comment: this.orderComment,
+                    user: this.orderResp.data,
+                }).then(resp => {
+                    respId = resp.data.id
+                })
+
+                for (let i = 0; i < currOrdersSize; i++) {
+                    this.productOrders.push({
+                        id: {
+                            orderId: respId,
+                            productId: this.cartProducts[i].id,
+                        },
+                        price: this.cartProducts[i].price,
+                        amount: this.cartProducts[i].amount
+                    })
+                }
+
+                await AuthAPI.put('orders',{
+                    status: 'Крутой',
+                    payment: this.orderPayment,
+                    address: this.orderAddress,
+                    comment: this.orderComment,
+                    user: this.orderResp.data,
+                    id: respId,
+                    productOrders: this.productOrders,
+                })
             }
         },
 
-        mounted() {
-            this.cartHandler()
+        async mounted() {
+            await this.cartHandler()
+
+            this.orders = await AuthAPI.get('orders/get_user_order')
         }
     }
 </script>
@@ -177,5 +251,62 @@
         display: flex;
         align-items: flex-start;
         gap: 10px;
+    }
+
+    .main__order{
+        border: 3px solid #009900;
+        box-shadow: 0 0 0 1px lightgrey;
+        width: 450px;
+        border-radius: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 25px 20px;
+
+        &-title{
+            font-size: 24px;
+            color: #336633;
+            font-weight: 600;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        &-item{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            &--name{
+                font-weight: 500;
+                font-size: 18px;
+            }
+
+            &--input{
+                border: 2px solid #009900;
+                border-radius: 20px;
+                padding: 5px 10px;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 16px;
+            }
+        }
+
+        &-button{
+            font-size: 16px;
+            line-height: 16px;
+            font-weight: 600;
+            color: white;
+            background: #009900;
+            transition: 0.2s;
+            border-radius: 15px;
+            padding: 15px 30px;
+
+            &:hover{
+                color: #009900;
+                outline: 1px solid #009900;
+                background: none;
+                cursor: pointer;
+            }
+        }
     }
 </style>
