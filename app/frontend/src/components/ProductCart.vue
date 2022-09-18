@@ -123,6 +123,8 @@
                     productCarts: this.userInfo.data.productCarts.filter((el) => {return el.id.productId !== this.cartProduct.id}),
                     id: this.userInfo.data.id,
                 })
+
+                window.location.reload()
             }
         },
 
@@ -153,7 +155,6 @@
             font-size: 20px;
             line-height: 20px;
             font-weight: 500;
-            height: 40px;
         }
 
         &-description{

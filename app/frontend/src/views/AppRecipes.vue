@@ -9,14 +9,6 @@
               <div class="main__search">
                   <input v-model="searchQuery" type="text" maxlength="20" class="main__search-input" placeholder="Введите название..."/>
                   <div class="main__search-flex">
-                      <p class="main__search-filter">Фильтрация по цене</p>
-                      <div class="filter__inputs">
-                          <input type="number" maxlength="4" class="filter__inputs-input"/>
-                          <input type="number" maxlength="4" class="filter__inputs-input"/>
-                      </div>
-                  </div>
-                  <button type="button" class="main__search-button--filter">Фильтрация</button>
-                  <div class="main__search-flex">
                       <p class="main__search-filter">Сортировка по цене</p>
                       <select v-model="sortValue" class="main__search-select">
                           <option disabled selected value="">Выберите из списка</option>

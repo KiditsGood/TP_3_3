@@ -13,7 +13,7 @@
         <div class="products__item-cost--flex">
             <p class="products__item-cost">{{ product.price }}</p>
             <input v-if="this.user.userRole === 'ROLE_USER'" class="products__item-amount" v-model="cartAmount" type="number" />
-            <button @click="show2 = !show2" v-if="this.user.userRole === 'ROLE_ADMIN'" type="button" class="products__item-buy">Редактировать</button>
+            <button @click="show2 = !show2" v-if="this.user.userRole === 'ROLE_ADMIN'" type="button" class="products__item-buy">Изменить</button>
             <button @click="productDelete" v-if="this.user.userRole === 'ROLE_ADMIN'" type="button" class="products__item-buy">Удалить</button>
             <button v-else @click="buyHandler" type="button" class="products__item-buy">Купить</button>
         </div>
@@ -212,7 +212,6 @@
             font-size: 20px;
             line-height: 20px;
             font-weight: 500;
-            height: 40px;
         }
 
         &-description{

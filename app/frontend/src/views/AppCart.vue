@@ -27,14 +27,14 @@
                     <button class="main__order-button" type="submit">Заказать</button>
                 </form>
             </div>
-            <div class="history">
-                <p class="history__title">История заказов</p>
-                <div v-for="order in orders" :order="order" class="history__item">
-                    <p class="history__item-name"></p>
-                    <p class="history__item-name"></p>
-                    <p class="history__item-name"></p>
-                </div>
-            </div>
+<!--            <div class="history">-->
+<!--                <p class="history__title">История заказов</p>-->
+<!--                <div v-for="order in orders" :order="order" class="history__item">-->
+<!--                    <p class="history__item-name"></p>-->
+<!--                    <p class="history__item-name"></p>-->
+<!--                    <p class="history__item-name"></p>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
     </div>
 </template>
@@ -145,7 +145,6 @@
             font-size: 20px;
             line-height: 20px;
             font-weight: 500;
-            height: 40px;
         }
 
         &-description{
@@ -250,6 +249,7 @@
     .main__products{
         display: flex;
         align-items: flex-start;
+        flex-wrap: wrap;
         gap: 10px;
     }
 
