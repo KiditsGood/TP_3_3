@@ -6,7 +6,7 @@
         </div>
         <div class="header__right">
             <router-link to="/favourite" class="header--item">
-                <p class="header--item--abs">{{ colFavChecker }}</p>
+                <p v-show="colFavChecker !== 0" class="header--item--abs">{{ colFavChecker }}</p>
                 <img src="../assets/static/img/star.svg" alt="" class="svg">
                 Избранное
             </router-link>
