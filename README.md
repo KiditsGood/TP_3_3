@@ -26,4 +26,10 @@
 * [Miro](https://miro.com/app/board/uXjVOFAVB90=/?invite_link_id=535054746845)
 * [Swagger(загружается около минуты)](https://tp3-3.herokuapp.com/swagger-ui/index.html)
 * [Сайт](http://a0720917.xsph.ru/tpfront/)
-
+### Данные для входа
+* Администратор
+* admin@mail.ru
+* 343425
+* Зарегестрированный пользователь
+* ivan@mail.ru
+* 123123Aa123
