@@ -12,6 +12,7 @@
         </div>
         <div class="products__item-cost--flex">
             <p class="products__item-cost">{{ product.price }}</p>
+            <input class="products__item-amount" v-model="cartAmount" type="number" />
             <button @click="buyHandler" type="button" class="products__item-buy">Купить</button>
         </div>
     </div>
@@ -32,7 +33,8 @@
             return {
                 isFavourite: false,
                 checkFav: false,
-                show: false
+                show: false,
+                cartAmount: 1
             }
         },
 
@@ -106,7 +108,14 @@
 
                 const cartResp = await AuthAPI.get('users/get_user')
 
-                cartResp.data.productCarts.push(this.product)
+                cartResp.data.productCarts.push({
+                    id: {
+                        userId: this.user.id,
+                        productId: this.product.id
+                    },
+                    price: this.product.price,
+                    amount: this.cartAmount
+                })
 
                 await AuthAPI.put('users', {
                     lastName: cartResp.data.lastName,
@@ -219,6 +228,22 @@
             line-height: 14px;
             color: gray;
             text-decoration: underline;
+        }
+
+        &-amount{
+            outline: 1px solid #009900;
+            width: 20%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 18px;
+            font-weight: 500;
+            color: #336633;
+            text-align: center;
+
+            &::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
         }
     }
 

@@ -14,7 +14,7 @@
                 <img src="../assets/static/img/recipes.svg" alt="" class="svg">
                 Рецепты
               </router-link>
-              <router-link to="/recipes" class="header--item">
+              <router-link to="/cart" class="header--item">
                 <img src="../assets/static/img/cart.svg" alt="" class="svg">
                 Корзина
               </router-link>
@@ -79,7 +79,9 @@
         justify-content: space-between;
         gap: 10px;
         background: white;
-        padding: 25px 220px;
+        padding: 25px 0;
+        max-width: 1480px;
+        margin: 0 auto;
         box-shadow: rgb(241 243 244) 0 4px 18px;
 
         &__left{

@@ -11,6 +11,7 @@ import CatalogDrinks from "@/views/CatalogDrinks";
 import CatalogMeet from "@/views/CatalogMeet";
 import AppRecipes from "@/views/AppRecipes";
 import AppFavourite from "@/views/AppFavourite";
+import AppCart from "@/views/AppCart";
 
 Vue.use(VueRouter)
 
@@ -69,6 +70,11 @@ const routes = [
     path: '/favourite',
     name: 'Favourite',
     component: AppFavourite
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: AppCart
   }
 ]
 
