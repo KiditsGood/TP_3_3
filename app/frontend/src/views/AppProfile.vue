@@ -57,10 +57,10 @@
                         </div>
                         <button class="profile__right-button" type="submit">Добавить рецепт</button>
                     </div>
-                    <div class="profile__right-list">
-
-                    </div>
                 </form>
+            </div>
+            <div class="profile__right-list fav--flex">
+                <RecipeCard v-for="recipe in favRecipes" :recipe="recipe" :key="recipe.id"/>
             </div>
         </div>
     </div>
@@ -70,10 +70,11 @@
     import AppHeader from "@/components/AppHeader";
     import {mapGetters} from "vuex";
     import {AuthAPI} from "@/axios";
+    import RecipeCard from "@/components/RecipeCard";
 
     export default {
         name: "AppProfile",
-        components: {AppHeader},
+        components: {RecipeCard, AppHeader},
 
         computed: {
             ...mapGetters(['user']),
@@ -95,6 +96,12 @@
             const searchResp = await AuthAPI.get('products/all')
 
             this.searchElems = searchResp.data
+
+            const favRecipeResp = await AuthAPI.get('users/get_user')
+
+            console.log(favRecipeResp.data.favouriteRecipes)
+
+            this.favRecipes = favRecipeResp.data.favouriteRecipes
         },
 
         data() {
@@ -111,7 +118,8 @@
                 recipePhoto: '',
                 recipeSearch: '',
                 searchElems: [],
-                selectedElems: []
+                selectedElems: [],
+                favRecipes: []
             }
         },
 
@@ -181,6 +189,7 @@
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
+        margin-bottom: 30px;
 
         &__right{
             display: flex;
@@ -298,5 +307,11 @@
             color: white;
             outline: none;
         }
+    }
+
+    .fav--flex{
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
     }
 </style>

@@ -12,6 +12,7 @@ import CatalogMeet from "@/views/CatalogMeet";
 import AppRecipes from "@/views/AppRecipes";
 import AppFavourite from "@/views/AppFavourite";
 import AppCart from "@/views/AppCart";
+import AdminPanel from "@/views/AdminPanel";
 
 Vue.use(VueRouter)
 
@@ -75,6 +76,11 @@ const routes = [
     path: '/cart',
     name: 'Cart',
     component: AppCart
+  },
+  {
+    path: '/admin',
+    name: 'AdminPanel',
+    component: AdminPanel
   }
 ]
 

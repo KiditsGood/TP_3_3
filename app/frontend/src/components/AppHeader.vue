@@ -1,5 +1,5 @@
 <template>
-    <header class="header">
+    <header v-if="this.user.userRole === 'ROLE_USER'" class="header">
         <div class="header__left">
             <a href="/" class="header__left-logo"><img src="../assets/static/img/products.svg"/>PROSHOP</a>
             <router-link to="/catalog" class="header--item"><img class="svg" src="../assets/static/img/catalog.svg"/>Каталог</router-link>
@@ -22,6 +22,37 @@
                     <a href="/profile" class="header--item"><img class="svg" src="../assets/static/img/user.svg"/>{{ user.email }}</a>
                     <a @click="logout">Выйти</a>
                 </div>
+
+            <a href="/sign_in" class="header--item" v-else><img class="svg" src="../assets/static/img/user.svg"/>Войти</a>
+        </div>
+    </header>
+    <header v-else class="header">
+        <div class="header__left">
+            <a href="/" class="header__left-logo"><img src="../assets/static/img/products.svg"/>PROSHOP</a>
+            <router-link to="/catalog" class="header--item"><img class="svg" src="../assets/static/img/catalog.svg"/>Каталог</router-link>
+        </div>
+        <div class="header__right">
+            <router-link v-if="this.user.userRole === 'ROLE_ADMIN'" to="/admin" class="header--item">
+                <img src="../assets/static/img/admin.svg" alt="" class="svg">
+                Админ-панель
+            </router-link>
+            <router-link to="/favourite" class="header--item">
+                <p v-show="colFavChecker !== 0" class="header--item--abs">{{ colFavChecker }}</p>
+                <img src="../assets/static/img/star.svg" alt="" class="svg">
+                Избранное
+            </router-link>
+            <router-link to="/recipes" class="header--item">
+                <img src="../assets/static/img/recipes.svg" alt="" class="svg">
+                Рецепты
+            </router-link>
+            <router-link to="/cart" class="header--item">
+                <img src="../assets/static/img/cart.svg" alt="" class="svg">
+                Корзина
+            </router-link>
+            <div class="header__out" v-if="user !== null">
+                <a href="/profile" class="header--item"><img class="svg" src="../assets/static/img/user.svg"/>{{ user.email }}</a>
+                <a @click="logout">Выйти</a>
+            </div>
 
             <a href="/sign_in" class="header--item" v-else><img class="svg" src="../assets/static/img/user.svg"/>Войти</a>
         </div>

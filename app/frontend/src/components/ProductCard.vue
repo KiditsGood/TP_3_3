@@ -12,9 +12,19 @@
         </div>
         <div class="products__item-cost--flex">
             <p class="products__item-cost">{{ product.price }}</p>
-            <input class="products__item-amount" v-model="cartAmount" type="number" />
-            <button @click="buyHandler" type="button" class="products__item-buy">Купить</button>
+            <input v-if="this.user.userRole === 'ROLE_USER'" class="products__item-amount" v-model="cartAmount" type="number" />
+            <button @click="show2 = !show2" v-if="this.user.userRole === 'ROLE_ADMIN'" type="button" class="products__item-buy">Редактировать</button>
+            <button @click="productDelete" v-if="this.user.userRole === 'ROLE_ADMIN'" type="button" class="products__item-buy">Удалить</button>
+            <button v-else @click="buyHandler" type="button" class="products__item-buy">Купить</button>
         </div>
+        <form @submit.prevent="productEdit" v-if="show2" class="products__item-edit">
+                <input class="products__item-edit--input" v-model="editName" type="text" placeholder="Введите название">
+                <input class="products__item-edit--input" v-model="editDesc" type="text"  placeholder="Введите описание">
+                <input class="products__item-edit--input" v-model="editCat" type="text" placeholder="Введите категорию">
+                <input class="products__item-edit--input" v-model="editPrice" type="text" placeholder="Введите цену">
+                <button type="submit" class="products__item-buy" v-model="editPrice">Сохранить</button>
+        </form>
+
     </div>
 </template>
 
@@ -34,7 +44,12 @@
                 isFavourite: false,
                 checkFav: false,
                 show: false,
-                cartAmount: 1
+                show2: false,
+                cartAmount: 1,
+                editName: this.product.name,
+                editDesc: this.product.description,
+                editCat: this.product.category,
+                editPrice: this.product.price
             }
         },
 
@@ -129,6 +144,25 @@
                     productCarts: cartResp.data.productCarts,
                     id: cartResp.data.id,
                 })
+            },
+
+            async productEdit() {
+                await AuthAPI.put('products',{
+                    id: this.product.id,
+                    name: this.editName,
+                    description: this.editDesc,
+                    category: this.editCat,
+                    price: this.editPrice,
+                    status: this.product.status
+                })
+
+                window.location.reload()
+            },
+
+            async productDelete() {
+                await AuthAPI.delete('products/' + this.product.id)
+
+                window.location.reload()
             }
         },
 
@@ -149,6 +183,25 @@
         padding: 15px 25px;
         width: 250px;
         position: relative;
+
+        &-edit{
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            .products__item-buy{
+                width: 100%;
+            }
+
+            &--input{
+                outline: 1px solid #336633;
+                border-radius: 5px;
+                height: 40px;
+                box-sizing: border-box;
+                padding: 5px 10px;
+            }
+        }
 
         &-image{
             width: 150px;
