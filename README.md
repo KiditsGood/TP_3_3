@@ -21,7 +21,7 @@
 * [frontend](https://github.com/KiditsGood/TP_3_3/tree/main/app/frontend)
 * [backend](https://github.com/KiditsGood/TP_3_3/tree/main/app/backend)
 ### Дополнительные ссылки
-* [Видео с технической реализацией](https://drive.google.com/file/d/1XZmNEQUJJL3lyv8C-V4tss9Ob3JMKAik/view?usp=sharing)
+* [Видео с технической реализацией Backend](https://drive.google.com/file/d/1XZmNEQUJJL3lyv8C-V4tss9Ob3JMKAik/view?usp=sharing)
 * [Trello](https://trello.com/b/YBszugLl/%D1%82%D0%BF-3-3)
 * [Miro](https://miro.com/app/board/uXjVOFAVB90=/?invite_link_id=535054746845)
 * [Swagger(загружается около минуты)](https://tp3-3.herokuapp.com/swagger-ui/index.html)
